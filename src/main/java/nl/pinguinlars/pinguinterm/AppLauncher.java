@@ -24,6 +24,7 @@
 
 package nl.pinguinlars.pinguinterm;
 
+import com.fazecast.jSerialComm.SerialPort;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -32,8 +33,25 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.util.Arrays;
+
 public class AppLauncher extends Application {
+    public static SerialPort[] ports = SerialPort.getCommPorts();
+    static String MicroBit;
+    static String[] KnowPorts = {"mbed Serial Port"};
+
     public static void main(String[] args) {
+        System.out.printf("Thanks for choosing PinguinTerm for your microbit project %n");
+        for (int i = 0; i < ports.length; i++) {
+            System.out.printf("[%d] Detected at \"%s\" with description: \"%s\"", i, ports[i].getDescriptivePortName(), ports[i].getPortDescription());
+            if (!Arrays.asList(KnowPorts).contains(ports[i].getPortDescription())) {
+                System.out.printf("%n"); //We only use formated strings
+                continue;
+            }
+            MicroBit = ports[i].getSystemPortName();
+            System.out.printf(", Port found with MicroBit attached%n");
+            break;
+        }
         launch(args);
     }
 
