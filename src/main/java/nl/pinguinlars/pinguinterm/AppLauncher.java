@@ -53,7 +53,7 @@ public class AppLauncher extends Application {
 
     public static void main(String[] args) throws IOException {
         if (MicroBit() == null) {
-            ErrorMessage.main(args);
+            ErrorMessage.Lauch(args);
             throw new IOException("No MicroBit found");
         }
         try {
