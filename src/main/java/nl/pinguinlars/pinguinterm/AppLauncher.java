@@ -24,7 +24,6 @@
 
 package nl.pinguinlars.pinguinterm;
 
-import com.fazecast.jSerialComm.SerialPort;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -34,36 +33,29 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 public class AppLauncher extends Application {
-    final static String[] KnowPorts = {"mbed Serial Port"};
-    public static SerialPort MicroBit;
-
-    static SerialPort MicroBit() {
-        SerialPort[] ports = SerialPort.getCommPorts();
-        for (SerialPort port : ports) {
-            System.out.printf("Port %s detected%n", port.getDescriptivePortName());
-            if (!Arrays.asList(KnowPorts).contains(port.getPortDescription())) continue;
-            MicroBit = port;
-            break;
-        }
-        return MicroBit;
-    }
-
     public static void main(String[] args) throws IOException {
-        if (MicroBit() == null) {
-            ErrorMessage.Lauch(args);
+        if (SerialController.PreLaunchChecks() == null) {
+            ErrorMessage.Lauch();
             throw new IOException("No MicroBit found");
         }
         try {
-            MicroBit.openPort();
+            SerialController.ReadProcess.submit(() -> {
+                while (SerialController.ActiveProcess) {
+                    //Put code to read data here
+                }
+            });
+            SerialController.MicroBitPort.openPort();
             launch(args);
         } catch (Exception e) {
             e.printStackTrace();
+            SerialController.ReadProcess.shutdownNow();
         } finally {
-            MicroBit.closePort();
+            //Postlaunch and critical error tasks
+            SerialController.MicroBitPort.closePort();
         }
+        SerialController.Shutdown();
     }
 
     @Override
@@ -99,7 +91,10 @@ public class AppLauncher extends Application {
 
     private Button Button3_0() {
         Button results = new Button("Forward");
-        results.setOnAction(evt -> System.out.println("Hello"));
+        results.setOnAction(evt -> {
+            System.out.println("Hello");
+//            SerialController.SendMessage("Forward"); //Not tested
+        });
         return results;
     }
 
