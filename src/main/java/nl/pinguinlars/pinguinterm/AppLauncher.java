@@ -33,36 +33,49 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 public class AppLauncher extends Application {
-    public static SerialPort[] ports = SerialPort.getCommPorts();
-    static SerialPort MicroBitPort;
-    static String[] KnowPorts = {"mbed Serial Port"};
+    final static String[] KnowPorts = {"mbed Serial Port"};
+    public static SerialPort MicroBit;
 
-    public static void main(String[] args) {
-        System.out.printf("Thanks for choosing PinguinTerm for your microbit project %n");
-        for (int i = 0; i < ports.length; i++) {
-            System.out.printf("[%d] Detected port: \"%s\" %n", i, ports[i].getSystemPortName());
-            if (!Arrays.asList(KnowPorts).contains(ports[i].getPortDescription())) continue;
-            MicroBitPort = ports[i];
-            System.out.printf("Port found with MicroBit attached:%n\t%s%n", MicroBitPort.getPortDescription());
+    static SerialPort MicroBit() {
+        SerialPort[] ports = SerialPort.getCommPorts();
+        for (SerialPort port : ports) {
+            System.out.printf("Port %s detected", port.getDescriptivePortName());
+            if (!Arrays.asList(KnowPorts).contains(port.getPortDescription())) continue;
+            MicroBit = port;
             break;
         }
-        if (MicroBitPort == null) throw new RuntimeException("No device connected"); //May add a popup or a notification to warn the user
-        launch(args);
+        return MicroBit;
+    }
+
+    public static void main(String[] args) throws IOException {
+        if (MicroBit() == null) {
+            ErrorMessage.main(args);
+            throw new IOException("No MicroBit found");
+        }
+        try {
+            MicroBit.openPort();
+            launch(args);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            MicroBit.closePort();
+        }
     }
 
     @Override
     public void start(Stage primaryStage) {
-        Scene scene = new Scene(createContents(), 400, 200);
+        Scene scene = new Scene(createContents(), 960, 540);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
     private Region createContents() {
-        VBox results = new VBox(20, Button0_0());
-        results.setAlignment(Pos.CENTER);
+        VBox results = new VBox(20, Button0_0(), Button1_0(), Button2_0(), Button3_0(), Button4_0());
+        results.setAlignment(Pos.CENTER_LEFT);
         return results;
     }
 
