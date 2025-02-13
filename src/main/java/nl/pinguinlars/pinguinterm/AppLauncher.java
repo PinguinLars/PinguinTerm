@@ -43,7 +43,7 @@ public class AppLauncher extends Application {
     static SerialPort MicroBit() {
         SerialPort[] ports = SerialPort.getCommPorts();
         for (SerialPort port : ports) {
-            System.out.printf("Port %s detected", port.getDescriptivePortName());
+            System.out.printf("Port %s detected%n", port.getDescriptivePortName());
             if (!Arrays.asList(KnowPorts).contains(port.getPortDescription())) continue;
             MicroBit = port;
             break;
