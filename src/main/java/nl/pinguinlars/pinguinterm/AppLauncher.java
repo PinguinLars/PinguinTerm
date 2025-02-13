@@ -37,21 +37,19 @@ import java.util.Arrays;
 
 public class AppLauncher extends Application {
     public static SerialPort[] ports = SerialPort.getCommPorts();
-    static String MicroBit;
+    static SerialPort MicroBitPort;
     static String[] KnowPorts = {"mbed Serial Port"};
 
     public static void main(String[] args) {
         System.out.printf("Thanks for choosing PinguinTerm for your microbit project %n");
         for (int i = 0; i < ports.length; i++) {
-            System.out.printf("[%d] Detected at \"%s\" with description: \"%s\"", i, ports[i].getDescriptivePortName(), ports[i].getPortDescription());
-            if (!Arrays.asList(KnowPorts).contains(ports[i].getPortDescription())) {
-                System.out.printf("%n"); //We only use formated strings
-                continue;
-            }
-            MicroBit = ports[i].getSystemPortName();
-            System.out.printf(", Port found with MicroBit attached%n");
+            System.out.printf("[%d] Detected port: \"%s\" %n", i, ports[i].getSystemPortName());
+            if (!Arrays.asList(KnowPorts).contains(ports[i].getPortDescription())) continue;
+            MicroBitPort = ports[i];
+            System.out.printf("Port found with MicroBit attached:%n\t%s%n", MicroBitPort.getPortDescription());
             break;
         }
+        if (MicroBitPort == null) throw new RuntimeException("No device connected"); //May add a popup or a notification to warn the user
         launch(args);
     }
 
