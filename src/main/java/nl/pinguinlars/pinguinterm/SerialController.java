@@ -26,6 +26,7 @@ package nl.pinguinlars.pinguinterm;
 
 import com.fazecast.jSerialComm.SerialPort;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -35,8 +36,9 @@ public class SerialController {
     static SerialPort MicroBitPort;
     static ExecutorService ReadProcess = Executors.newFixedThreadPool(4);
     public static volatile boolean ActiveProcess = true;
+    static ArrayList<String> MessageLog = new ArrayList<>();
 
-    public static SerialPort PreLaunchChecks() {
+    public static void PreLaunchChecks() {
         SerialPort[] ports = SerialPort.getCommPorts();
         for (SerialPort port : ports) {
             System.out.printf("Port %s detected%n", port.getDescriptivePortName());
@@ -45,7 +47,6 @@ public class SerialController {
             MicroBitPort.setComPortParameters(115200, 8, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
             break;
         }
-        return MicroBitPort;
     }
 
     public static void SendMessage(String Message) {
@@ -54,7 +55,8 @@ public class SerialController {
         MicroBitPort.writeBytes(MessageInBytes, MessageInBytes.length);
     }
 
-    public static void ReadMessage() {
+    public static String Message() {
+        return MessageLog.getLast();
     }
 
     //Please don't use in a catch or finally statement, instead use SerialController.ReadProcess.ShutdownNow

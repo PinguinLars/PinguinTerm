@@ -36,23 +36,28 @@ import java.io.IOException;
 
 public class AppLauncher extends Application {
     public static void main(String[] args) throws IOException {
-        if (SerialController.PreLaunchChecks() == null) {
-            ErrorMessage.Lauch();
+        LogHandler.init();
+        SerialController.PreLaunchChecks();
+        if (SerialController.MicroBitPort == null) {
+            ErrorMessage.Launch();
             throw new IOException("No MicroBit found");
         }
-        try {
-            SerialController.ReadProcess.submit(() -> {
-                while (SerialController.ActiveProcess) {
-                    //Put code to read data here
+        SerialController.ReadProcess.submit(() -> {
+            byte[] buffer = new byte[1024];
+            while (SerialController.ActiveProcess) {
+                int ReadDetector = SerialController.MicroBitPort.readBytes(buffer, buffer.length);
+                if (ReadDetector > 0) {
+
                 }
-            });
+            }
+        });
+        try {
             SerialController.MicroBitPort.openPort();
             launch(args);
         } catch (Exception e) {
-            e.printStackTrace();
+            LogHandler.write(e.getMessage());
             SerialController.ReadProcess.shutdownNow();
         } finally {
-            //Postlaunch and critical error tasks
             SerialController.MicroBitPort.closePort();
         }
         SerialController.Shutdown();
