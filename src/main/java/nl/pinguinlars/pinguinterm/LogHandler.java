@@ -25,23 +25,50 @@
 package nl.pinguinlars.pinguinterm;
 
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class LogHandler {
-    private static final String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
-    static File logFile = new File("PinguinTerm" + date + ".txt");
+    private static final String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH,mm,ss"));
+    static File logFile = new File("logs/PinguinTerm_" + date + ".log");
+    static FileWriter logWriter;
 
     public static void init() {
-        try {if (logFile.createNewFile()) {
+        try {
+            File parentDir = logFile.getParentFile();
+            if (parentDir != null && !parentDir.exists()) {
+                if (parentDir.mkdirs()) {
+                    System.out.println("Log Directory created");
+                }
+            }
+            if (logFile.createNewFile()) {
                 System.out.println("File created: " + logFile.getName());
             } else {
                 System.out.println("File already exists.");
             }
-        } catch (IOException IOe) {
+        } catch (IOException e) {
+            write(e.getMessage());
+        }
+    }
+
+    public static void write(String message) {
+        try {
+            logWriter = new FileWriter(logFile, true);
+            logWriter.write(message + System.lineSeparator());
+        } catch (IOException e) {
             System.out.println("An error occurred.");
-            IOe.printStackTrace();
+            e.printStackTrace();
+        } finally {
+            try {
+                if (logWriter != null) {
+                    logWriter.close();
+                }
+            } catch (IOException e) {
+                //Not going to log to the .log file on this methode, because this is the log methode
+                e.printStackTrace();
+            }
         }
     }
 }

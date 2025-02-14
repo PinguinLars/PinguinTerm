@@ -15,7 +15,7 @@ public class ErrorMessage extends Application {
         alert.showAndWait();
     }
 
-    public static void Lauch() {
+    public static void Launch() {
         launch();
     }
 }

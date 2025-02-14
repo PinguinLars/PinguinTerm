@@ -39,19 +39,23 @@ public class AppLauncher extends Application {
         LogHandler.init();
         SerialController.PreLaunchChecks();
         if (SerialController.MicroBitPort == null) {
-            ErrorMessage.Lauch();
+            ErrorMessage.Launch();
             throw new IOException("No MicroBit found");
         }
         SerialController.ReadProcess.submit(() -> {
+            byte[] buffer = new byte[1024];
             while (SerialController.ActiveProcess) {
-                //Put code to read data here
+                int ReadDetector = SerialController.MicroBitPort.readBytes(buffer, buffer.length);
+                if (ReadDetector > 0) {
+
+                }
             }
         });
         try {
             SerialController.MicroBitPort.openPort();
             launch(args);
         } catch (Exception e) {
-            e.printStackTrace();
+            LogHandler.write(e.getMessage());
             SerialController.ReadProcess.shutdownNow();
         } finally {
             SerialController.MicroBitPort.closePort();

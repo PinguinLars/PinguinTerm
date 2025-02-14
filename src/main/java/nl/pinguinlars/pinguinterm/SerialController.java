@@ -59,10 +59,6 @@ public class SerialController {
         return MessageLog.getLast();
     }
 
-    public static String Message(int n) {
-        return MessageLog.get(n);
-    }
-
     //Please don't use in a catch or finally statement, instead use SerialController.ReadProcess.ShutdownNow
     public static void Shutdown() {
         ActiveProcess = false;
