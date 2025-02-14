@@ -42,7 +42,9 @@ public class SerialController {
         SerialPort[] ports = SerialPort.getCommPorts();
         for (SerialPort port : ports) {
             System.out.printf("Port %s detected%n", port.getDescriptivePortName());
+            LogHandler.write("Port: " + port.getDescriptivePortName());
             if (!Arrays.asList(KnowPorts).contains(port.getPortDescription())) continue;
+            LogHandler.write("MicroBit found");
             MicroBitPort = port;
             MicroBitPort.setComPortParameters(115200, 8, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
             break;
@@ -50,9 +52,13 @@ public class SerialController {
     }
 
     public static void SendMessage(String Message) {
-        if (!(MicroBitPort != null && MicroBitPort.isOpen())) return;
+        if (!(MicroBitPort != null && MicroBitPort.isOpen())) {
+            LogHandler.write("Port not open or MicroBit not detected");
+            return;
+        }
         byte[] MessageInBytes = Message.getBytes();
         MicroBitPort.writeBytes(MessageInBytes, MessageInBytes.length);
+        LogHandler.write("Send Message: " + Message);
     }
 
     public static String Message() {
@@ -63,5 +69,6 @@ public class SerialController {
     public static void Shutdown() {
         ActiveProcess = false;
         ReadProcess.shutdown();
+        LogHandler.write("Shutting Down");
     }
 }

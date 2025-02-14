@@ -36,10 +36,13 @@ import java.io.IOException;
 
 public class AppLauncher extends Application {
     public static void main(String[] args) throws IOException {
+        LogHandler.write("Starting Application");
         LogHandler.init();
         SerialController.PreLaunchChecks();
         if (SerialController.MicroBitPort == null) {
             ErrorMessage.Launch();
+            LogHandler.write("No MicroBit Found");
+            LogHandler.write("Exiting Application");
             throw new IOException("No MicroBit found");
         }
         SerialController.ReadProcess.submit(() -> {
