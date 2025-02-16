@@ -35,35 +35,42 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class AppLauncher extends Application {
+    static SerialController serial = new SerialController();
+    static LogHandler Logger = new LogHandler(false);
+    static LogHandler ErrorLogger = new LogHandler(true);
+
     public static void main(String[] args) throws IOException {
-        LogHandler.write("Starting Application");
-        LogHandler.init();
-        SerialController.PreLaunchChecks();
-        if (SerialController.MicroBitPort == null) {
+        Logger.Log("Starting Application");
+        if (serial.MicroBitPort == null) {
             ErrorMessage.Launch();
-            LogHandler.write("No MicroBit Found");
-            LogHandler.write("Exiting Application");
+            ErrorLogger.Log("No MicroBit Found");
+            Logger.Log("Exiting Application");
             throw new IOException("No MicroBit found");
         }
-        SerialController.ReadProcess.submit(() -> {
+        serial.ReadProcess.submit(() -> {
             byte[] buffer = new byte[1024];
-            while (SerialController.ActiveProcess) {
-                int ReadDetector = SerialController.MicroBitPort.readBytes(buffer, buffer.length);
-                if (ReadDetector > 0) {
-
+            try {
+                while (serial.ActiveProcess) {
+                    int numRead = serial.MicroBitPort.readBytes(buffer, buffer.length);
+                    if (numRead > 0) {
+                        String receivedData = new String(buffer, 0, numRead);
+                        serial.MessageLog.add(receivedData);
+                        Logger.Log(receivedData);
+                    }
                 }
+            } catch (Exception e) {
+                ErrorLogger.Log(e.getMessage());
             }
         });
         try {
-            SerialController.MicroBitPort.openPort();
+            serial.MicroBitPort.openPort();
             launch(args);
         } catch (Exception e) {
-            LogHandler.write(e.getMessage());
-            SerialController.ReadProcess.shutdownNow();
-        } finally {
-            SerialController.MicroBitPort.closePort();
+            ErrorLogger.Log(e.getMessage());
+            serial.ReadProcess.shutdownNow();
+            serial.MicroBitPort.closePort();
         }
-        SerialController.Shutdown();
+        serial.Shutdown();
     }
 
     @Override
@@ -74,53 +81,53 @@ public class AppLauncher extends Application {
     }
 
     private Region createContents() {
-        VBox results = new VBox(20, Button0_0(), Button1_0(), Button2_0(), Button3_0(), Button4_0());
-        results.setAlignment(Pos.CENTER_LEFT);
-        return results;
+        VBox Return = new VBox(20, Button0_0(), Button1_0(), Button2_0(), Button3_0(), Button4_0());
+        Return.setAlignment(Pos.CENTER_LEFT);
+        return Return;
     }
 
     private Button Button0_0() {
-        Button results = new Button("Forward");
-        results.setOnAction(evt -> System.out.println("Hello"));
-        return results;
+        Button Return = new Button("Forward");
+        Return.setOnAction(evt -> System.out.println("Hello"));
+        return Return;
     }
 
     private Button Button1_0() {
-        Button results = new Button("Forward");
-        results.setOnAction(evt -> System.out.println("Hello"));
-        return results;
+        Button Return = new Button("Forward");
+        Return.setOnAction(evt -> System.out.println("Hello"));
+        return Return;
     }
 
     private Button Button2_0() {
-        Button results = new Button("Forward");
-        results.setOnAction(evt -> System.out.println("Hello"));
-        return results;
+        Button Return = new Button("Forward");
+        Return.setOnAction(evt -> System.out.println("Hello"));
+        return Return;
     }
 
     private Button Button3_0() {
-        Button results = new Button("Forward");
-        results.setOnAction(evt -> {
+        Button Return = new Button("Forward");
+        Return.setOnAction(evt -> {
             System.out.println("Hello");
-//            SerialController.SendMessage("Forward"); //Not tested
+//            SerialControllerDeprecated.SendMessage("Forward"); //Not tested
         });
-        return results;
+        return Return;
     }
 
     private Button Button4_0() {
-        Button results = new Button("Forward");
-        results.setOnAction(evt -> System.out.println("Hello"));
-        return results;
+        Button Return = new Button("Forward");
+        Return.setOnAction(evt -> System.out.println("Hello"));
+        return Return;
     }
 
     private Button Button0_1() {
-        Button results = new Button("Forward");
-        results.setOnAction(evt -> System.out.println("Hello"));
-        return results;
+        Button Return = new Button("Forward");
+        Return.setOnAction(evt -> System.out.println("Hello"));
+        return Return;
     }
 
     private Button Button1_1() {
-        Button results = new Button("Forward");
-        results.setOnAction(evt -> System.out.println("Hello"));
-        return results;
+        Button Return = new Button("Forward");
+        Return.setOnAction(evt -> System.out.println("Hello"));
+        return Return;
     }
 }

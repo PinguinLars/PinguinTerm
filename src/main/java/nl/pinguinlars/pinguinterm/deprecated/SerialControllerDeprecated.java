@@ -22,62 +22,54 @@
  * SOFTWARE.
  */
 
-package nl.pinguinlars.pinguinterm;
+package nl.pinguinlars.pinguinterm.deprecated;
 
 import com.fazecast.jSerialComm.SerialPort;
+import nl.pinguinlars.pinguinterm.LogHandler;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 
-public class SerialController {
-    SerialPort MicroBitPort;
-    ExecutorService ReadProcess = Executors.newFixedThreadPool(4);
-    public volatile boolean ActiveProcess = true;
-    public ArrayList<String> MessageLog = new ArrayList<>();
-    static LogHandler Logger = new LogHandler(false);
-    static LogHandler ErrorLogger = new LogHandler(true);
+public class SerialControllerDeprecated {
+    final private static String[] KnowPorts = {"mbed Serial Port"};
+    static SerialPort MicroBitPort;
+    static ExecutorService ReadProcess = Executors.newFixedThreadPool(4);
+    public static volatile boolean ActiveProcess = true;
+    public static ArrayList<String> MessageLog = new ArrayList<>();
 
-    public SerialController() {
+    public static void PreLaunchChecks() {
         SerialPort[] ports = SerialPort.getCommPorts();
-        final String[] knowPorts = {"mbed Serial Port"};
         for (SerialPort port : ports) {
             System.out.printf("Port %s detected%n", port.getDescriptivePortName());
-            Logger.Log("Port: " + port.getDescriptivePortName());
-            if (!Arrays.asList(knowPorts).contains(port.getPortDescription())) continue;
-            Logger.Log("MicroBit found");
+            LogHandlerDeprecated.Log("Port: " + port.getDescriptivePortName(), false);
+            if (!Arrays.asList(KnowPorts).contains(port.getPortDescription())) continue;
+            LogHandlerDeprecated.Log("MicroBit found", false);
             MicroBitPort = port;
             MicroBitPort.setComPortParameters(115200, 8, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
             break;
         }
     }
 
-    public void SendMessage(String Message) {
+    public static void SendMessage(String Message) {
         if (!(MicroBitPort != null && MicroBitPort.isOpen())) {
-            ErrorLogger.Log("Port isn't open or MicroBit not detected");
+            LogHandlerDeprecated.Log("Port isn't open or MicroBit not detected", true);
             return;
         }
         byte[] MessageInBytes = Message.getBytes();
         MicroBitPort.writeBytes(MessageInBytes, MessageInBytes.length);
-        Logger.Log("Send Message: " + Message);
-        try {
-            TimeUnit.MILLISECONDS.sleep(10);
-        } catch (InterruptedException e) {
-            ErrorLogger.Log(e.getMessage());
-        }
+        LogHandlerDeprecated.Log("Send Message: " + Message, false);
     }
 
-    public String Message() {
+    public static String Message() {
         return MessageLog.getLast();
     }
 
-    //Please don't use in a catch or finally statement, instead use {Your object}.ReadProcess.ShutdownNow
-    public void Shutdown() {
+    //Please don't use in a catch or finally statement, instead use SerialControllerDeprecated.ReadProcess.ShutdownNow
+    public static void Shutdown() {
         ActiveProcess = false;
-        MicroBitPort.closePort();
         ReadProcess.shutdown();
-        Logger.Log("Shutting Down");
+        LogHandlerDeprecated.Log("Shutting Down", false);
     }
 }

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package nl.pinguinlars.pinguinterm;
+package nl.pinguinlars.pinguinterm.deprecated;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -30,13 +30,12 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class LogHandler {
+public class LogHandlerDeprecated {
     private static final String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH;mm;ss"));
     static final File logFile = new File("logs/PinguinTerm_" + date + ".log");
     static FileWriter logWriter;
-    boolean error;
 
-    public LogHandler() {
+    public static void init() {
         try {
             File parentDir = logFile.getParentFile();
             if (parentDir != null && !parentDir.exists()) parentDir.mkdirs();
@@ -45,22 +44,9 @@ public class LogHandler {
             e.printStackTrace();
             //Not going to log to the .log file on this methode, because this is the initialization log methode
         }
-        this.error = false;
     }
 
-    public LogHandler(boolean error) {
-        try {
-            File parentDir = logFile.getParentFile();
-            if (parentDir != null && !parentDir.exists()) parentDir.mkdirs();
-            logFile.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-            //Not going to log to the .log file on this methode, because this is the initialization log methode
-        }
-        this.error = error;
-    }
-
-    public void Log(String message) {
+    public static void Log(String message, boolean error) {
         String time = "[" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH;mm;ss,SSS")) + "] ";
         try {
             logWriter = new FileWriter(logFile, true);
