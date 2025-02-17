@@ -35,9 +35,9 @@ import javafx.stage.Stage;
 import java.io.IOException;
 
 public class AppLauncher extends Application {
-    static SerialController serial = new SerialController();
-    static LogHandler Logger = new LogHandler(false);
-    static LogHandler ErrorLogger = new LogHandler(true);
+    static final SerialController serial = new SerialController();
+    private static final LogHandler Logger = new LogHandler(false);
+    private static final LogHandler ErrorLogger = new LogHandler(true);
 
     public static void main(String[] args) throws IOException {
         Logger.Log("Starting Application");
