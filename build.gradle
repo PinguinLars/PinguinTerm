@@ -26,7 +26,7 @@ tasks.withType(JavaCompile).configureEach {
 
 application {
     mainModule = 'nl.pinguinlars.pinguinterm'
-    mainClass = 'nl.pinguinlars.pinguinterm.AppLauncher'
+    mainClass = 'nl.pinguinlars.pinguinterm.Main'
 }
 
 javafx {

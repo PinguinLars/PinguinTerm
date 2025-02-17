@@ -33,7 +33,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class SerialController {
-    SerialPort MicroBitPort;
+    public SerialPort MicroBitPort;
     ExecutorService ReadProcess = Executors.newFixedThreadPool(4);
     public volatile boolean ActiveProcess = true;
     public ArrayList<String> MessageLog = new ArrayList<>();
