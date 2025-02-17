@@ -86,6 +86,18 @@ public class AppLauncher extends Application {
         return Return;
     }
 
+    private void KeyboardActions(Scene scene) {
+        scene.setOnKeyPressed(event -> {
+            switch (event.getCode()) {
+                case W:
+                    //Active forward.
+                    break;
+                default:
+                    break;
+            }
+        });
+    }
+
     private Button Button0_0() {
         Button Return = new Button("Forward");
         Return.setOnAction(evt -> System.out.println("Hello"));
