@@ -7,6 +7,4 @@ module nl.pinguinlars.pinguinterm {
 
     opens nl.pinguinlars.pinguinterm to javafx.fxml;
     exports nl.pinguinlars.pinguinterm;
-    exports nl.pinguinlars.pinguinterm.deprecated;
-    opens nl.pinguinlars.pinguinterm.deprecated to javafx.fxml;
 }
