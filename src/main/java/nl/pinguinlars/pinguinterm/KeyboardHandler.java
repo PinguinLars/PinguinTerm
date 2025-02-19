@@ -31,16 +31,36 @@ public class KeyboardHandler {
     public static void KeyW() {
         AppLauncher.serial.SendMessage("Forward");
     }
+
     public static void KeyS() {
         AppLauncher.serial.SendMessage("Backward");
     }
+
     public static void KeyA() {
         AppLauncher.serial.SendMessage("Left");
     }
+
     public static void KeyD() {
         AppLauncher.serial.SendMessage("Right");
     }
+
     public static void ReleaseWASD() {
         AppLauncher.serial.SendMessage("Stop");
+    }
+
+    public static void KeyWA() {
+        AppLauncher.serial.SendMessage("ForwardLeft");
+    }
+
+    public static void KeyWD() {
+        AppLauncher.serial.SendMessage("ForwardRight");
+    }
+
+    public static void KeySA() {
+        AppLauncher.serial.SendMessage("BackLeft");
+    }
+
+    public static void KeySD() {
+        AppLauncher.serial.SendMessage("BackRight");
     }
 }
