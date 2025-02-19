@@ -33,7 +33,7 @@ public class Main {
         App.Launch();
         Logger.Log("Starting Application");
         if (serial.MicroBitPort == null) {
-            ErrorMessage.Launch();
+            App.ErrorMessageLaunch();
             ErrorLogger.Log("No MicroBit Found");
             Logger.Log("Exiting Application");
             throw new RuntimeException("No MicroBit found");
