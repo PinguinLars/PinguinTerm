@@ -21,6 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+.root {
+    -fx-background-color: darkcyan;
+}
+
 .button {
     -fx-font-size: 50px;
+    -fx-background-color: aquamarine;
+
 }

@@ -52,204 +52,225 @@ public class App extends Application {
     }
 
     private Region createContents() {
-        GridPane Return = new GridPane();
-        AddButtons(Return); //Just to collapse this block of code
-        Return.setHgap(10);
-        Return.setVgap(10);
-        Return.setAlignment(Pos.CENTER);
-        return Return;
+        GridPane gridPane = new GridPane();
+        AddButtons(gridPane); //Just to collapse this block of code
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setAlignment(Pos.CENTER);
+        return gridPane;
     }
 
-    private void AddButtons(GridPane aReturn) {
-        aReturn.add(Button0_0(), 0, 0);
-        aReturn.add(Button0_1(), 0, 1);
-        aReturn.add(Button0_2(), 0, 2);
-        aReturn.add(Button0_3(), 0, 3);
-        aReturn.add(Button0_4(), 0, 4);
-        aReturn.add(Button1_0(), 1, 0);
-        aReturn.add(Button1_1(), 1, 1);
-        aReturn.add(Button1_2(), 1, 2);
-        aReturn.add(Button1_3(), 1, 3);
-        aReturn.add(Button1_4(), 1, 4);
-        aReturn.add(Button2_0(), 2, 0);
-        aReturn.add(Button2_1(), 2, 1);
-        aReturn.add(Button2_2(), 2, 2);
-        aReturn.add(Button2_3(), 2, 3);
-        aReturn.add(Button2_4(), 2, 4);
-        aReturn.add(Button3_0(), 3, 0);
-        aReturn.add(Button3_1(), 3, 1);
-        aReturn.add(Button3_2(), 3, 2);
-        aReturn.add(Button3_3(), 3, 3);
-        aReturn.add(Button3_4(), 3, 4);
-        aReturn.add(Button4_0(), 4, 0);
-        aReturn.add(Button4_1(), 4, 1);
-        aReturn.add(Button4_2(), 4, 2);
-        aReturn.add(Button4_3(), 4, 3);
-        aReturn.add(Button4_4(), 4, 4);
+    private void AddButtons(GridPane gridPane) {
+        gridPane.add(Button0_0(), 0, 0);
+        gridPane.add(Button0_1(), 0, 1);
+        gridPane.add(Button0_2(), 0, 2);
+        gridPane.add(Button0_3(), 0, 3);
+        gridPane.add(Button0_4(), 0, 4);
+        gridPane.add(Button1_0(), 1, 0);
+        gridPane.add(Button1_1(), 1, 1);
+        gridPane.add(Button1_2(), 1, 2);
+        gridPane.add(Button1_3(), 1, 3);
+        gridPane.add(Button1_4(), 1, 4);
+        gridPane.add(Button2_0(), 2, 0);
+        gridPane.add(Button2_1(), 2, 1);
+        gridPane.add(Button2_2(), 2, 2);
+        gridPane.add(Button2_3(), 2, 3);
+        gridPane.add(Button2_4(), 2, 4);
+        gridPane.add(Button3_0(), 3, 0);
+        gridPane.add(Button3_1(), 3, 1);
+        gridPane.add(Button3_2(), 3, 2);
+        gridPane.add(Button3_3(), 3, 3);
+        gridPane.add(Button3_4(), 3, 4);
+        gridPane.add(Button4_0(), 4, 0);
+        gridPane.add(Button4_1(), 4, 1);
+        gridPane.add(Button4_2(), 4, 2);
+        gridPane.add(Button4_3(), 4, 3);
+        gridPane.add(Button4_4(), 4, 4);
     }
 
     private Button Button0_0() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button0_0 = new Button("0.0");
+        button0_0.setId("0_0");
+        button0_0.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button0_0;
     }
 
     private Button Button0_1() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button0_1 = new Button("0.1");
+        button0_1.setId("0_1");
+        button0_1.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button0_1;
     }
 
     private Button Button0_2() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button0_2 = new Button("0.2");
+        button0_2.setId("0_2");
+        button0_2.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button0_2;
     }
 
     private Button Button0_3() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button0_3 = new Button("0.3");
+        button0_3.setId("0_3");
+        button0_3.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button0_3;
     }
 
     private Button Button0_4() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button0_4 = new Button("0.4");
+        button0_4.setId("0_4");
+        button0_4.setId("0_4");
+        button0_4.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button0_4;
     }
 
     private Button Button1_0() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button1_0 = new Button("1.0");
+        button1_0.setId("1_0");
+        button1_0.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button1_0;
     }
 
     private Button Button1_1() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button1_1 = new Button("1.1");
+        button1_1.setId("1_1");
+        button1_1.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button1_1;
     }
 
     private Button Button1_2() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button1_2 = new Button("1.2");
+        button1_2.setId("1_2");
+        button1_2.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button1_2;
     }
 
     private Button Button1_3() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button1_3 = new Button("1.3");
+        button1_3.setId("1_3");
+        button1_3.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button1_3;
     }
 
     private Button Button1_4() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button1_4 = new Button("1.4");
+        button1_4.setId("1_4");
+        button1_4.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button1_4;
     }
 
     private Button Button2_0() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button2_0 = new Button("2.0");
+        button2_0.setId("2_0");
+        button2_0.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button2_0;
     }
 
     private Button Button2_1() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button2_1 = new Button("2.1");
+        button2_1.setId("2_1");
+        button2_1.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button2_1;
     }
 
     private Button Button2_2() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button2_2 = new Button("2.2");
+        button2_2.setId("2_2");
+        button2_2.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button2_2;
     }
 
     private Button Button2_3() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button2_3 = new Button("2.3");
+        button2_3.setId("2_3");
+        button2_3.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button2_3;
     }
 
     private Button Button2_4() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button2_4 = new Button("2.4");
+        button2_4.setId("2_4");
+        button2_4.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button2_4;
     }
 
     private Button Button3_0() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button3_0 = new Button("3.0");
+        button3_0.setId("3_0");
+        button3_0.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button3_0;
     }
 
     private Button Button3_1() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button3_1 = new Button("3.1");
+        button3_1.setId("3_1");
+        button3_1.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button3_1;
     }
 
     private Button Button3_2() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button3_2 = new Button("3.2");
+        button3_2.setId("3_2");
+        button3_2.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button3_2;
     }
 
     private Button Button3_3() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button3_3 = new Button("3.3");
+        button3_3.setId("3_3");
+        button3_3.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button3_3;
     }
 
     private Button Button3_4() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button3_4 = new Button("3.4");
+        button3_4.setId("3_4");
+        button3_4.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button3_4;
     }
 
     private Button Button4_0() {
-        Button Return = new Button("0.0");
+        Button Return = new Button("4.0");
         Return.setOnAction(e -> {
             //Hi :wave:
         });
@@ -257,7 +278,7 @@ public class App extends Application {
     }
 
     private Button Button4_1() {
-        Button Return = new Button("0.0");
+        Button Return = new Button("4.1");
         Return.setOnAction(e -> {
             //Hi :wave:
         });
@@ -265,7 +286,7 @@ public class App extends Application {
     }
 
     private Button Button4_2() {
-        Button Return = new Button("0.0");
+        Button Return = new Button("4.2");
         Return.setOnAction(e -> {
             //Hi :wave:
         });
@@ -273,23 +294,25 @@ public class App extends Application {
     }
 
     private Button Button4_3() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button4_3 = new Button("4.3");
+        button4_3.setId("4_3");
+        button4_3.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button4_3;
     }
 
     private Button Button4_4() {
-        Button Return = new Button("0.0");
-        Return.setOnAction(e -> {
+        Button button4_4 = new Button("4.4");
+        button4_4.setId("4_4");
+        button4_4.setOnAction(e -> {
             //Hi :wave:
         });
-        return Return;
+        return button4_4;
     }
 }
 
-private class ErrorMessage extends Application {
+class ErrorMessage extends Application {
     @Override
     public void start(Stage primaryStage) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -301,5 +324,20 @@ private class ErrorMessage extends Application {
 
     public static void Launch() {
         launch();
+    }
+}
+
+class TestApp extends Application {
+    public static void Launch() {
+        launch();
+    }
+
+    @Override
+    public void start(Stage primaryStage) {
+        Scene scene = new Scene();
+        primaryStage.setScene(scene);
+    }
+    private Region createContents() {
+
     }
 }
