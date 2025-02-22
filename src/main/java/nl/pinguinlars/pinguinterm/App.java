@@ -90,6 +90,7 @@ public class App extends Application {
 
     private Button Button0_0() {
         Button button0_0 = new Button("0.0");
+        button0_0.setPrefSize(131,108);
         button0_0.setId("0_0");
         button0_0.setOnAction(e -> {
             //Hi :wave:
@@ -144,7 +145,8 @@ public class App extends Application {
     }
 
     private Button Button1_1() {
-        Button button1_1 = new Button("1.1");
+        Button button1_1 = new Button("\u21D6");
+        button1_1.setPrefSize(131,108);
         button1_1.setId("1_1");
         button1_1.setOnAction(e -> {
             //Hi :wave:
@@ -153,8 +155,9 @@ public class App extends Application {
     }
 
     private Button Button1_2() {
-        Button button1_2 = new Button("1.2");
+        Button button1_2 = new Button("\u21D0");
         button1_2.setId("1_2");
+        button1_2.setPrefSize(131,108);
         button1_2.setOnAction(e -> {
             //Hi :wave:
         });
@@ -189,7 +192,8 @@ public class App extends Application {
     }
 
     private Button Button2_1() {
-        Button button2_1 = new Button("2.1");
+        Button button2_1 = new Button("\u21D1");
+        button2_1.setPrefSize(131,108);
         button2_1.setId("2_1");
         button2_1.setOnAction(e -> {
             //Hi :wave:
@@ -207,7 +211,8 @@ public class App extends Application {
     }
 
     private Button Button2_3() {
-        Button button2_3 = new Button("2.3");
+        Button button2_3 = new Button("\u21D3");
+        button2_3.setPrefSize(131,108);
         button2_3.setId("2_3");
         button2_3.setOnAction(e -> {
             //Hi :wave:
@@ -234,7 +239,8 @@ public class App extends Application {
     }
 
     private Button Button3_1() {
-        Button button3_1 = new Button("3.1");
+        Button button3_1 = new Button("\u21D7");
+        button3_1.setPrefSize(131,108);
         button3_1.setId("3_1");
         button3_1.setOnAction(e -> {
             //Hi :wave:
@@ -243,7 +249,8 @@ public class App extends Application {
     }
 
     private Button Button3_2() {
-        Button button3_2 = new Button("3.2");
+        Button button3_2 = new Button("\u21D2");
+        button3_2.setPrefSize(131,108);
         button3_2.setId("3_2");
         button3_2.setOnAction(e -> {
             //Hi :wave:
@@ -324,20 +331,5 @@ class ErrorMessage extends Application {
 
     public static void Launch() {
         launch();
-    }
-}
-
-class TestApp extends Application {
-    public static void Launch() {
-        launch();
-    }
-
-    @Override
-    public void start(Stage primaryStage) {
-        Scene scene = new Scene();
-        primaryStage.setScene(scene);
-    }
-    private Region createContents() {
-
     }
 }

@@ -27,6 +27,12 @@
 
 .button {
     -fx-font-size: 50px;
-    -fx-background-color: aquamarine;
+    -fx-background-color: mediumaquamarine;
+}
 
+.button:hover {
+    -fx-background-color: aquamarine;
+}
+.button:pressed {
+    -fx-background-color: aqua;
 }
