@@ -24,27 +24,19 @@
 
 package nl.pinguinlars.pinguinterm;
 
-public class KeyboardHandler {
-    private static final LogHandler Logger = new LogHandler(false);
-    private static final LogHandler ErrorLogger = new LogHandler(true);
+import javafx.application.Application;
+import javafx.scene.control.Alert;
+import javafx.stage.Stage;
 
-    public static void MovementKeys(String Key) {
-        switch (Key) {
-            case "A" -> Main.serial.SendMessage("Left");
-            case "D" -> Main.serial.SendMessage("Right");
-            case "S" -> Main.serial.SendMessage("Back");
-            case "SA" -> Main.serial.SendMessage("BackLeft");
-            case "SD" -> Main.serial.SendMessage("BackRight");
-            case "W" -> Main.serial.SendMessage("Forward");
-            case "WA" -> Main.serial.SendMessage("ForwardLeft");
-            case "WD" -> Main.serial.SendMessage("ForwardRight");
-            case null -> {
-                System.out.println("Invalid Statement Given");
-                ErrorLogger.Log("Invalid Statement Given");
-                return;
-            }
-            default -> Main.serial.SendMessage("Stop");
-        }
-        Logger.Log("Key \"" + Key + "\" Pressed");
+public class ErrorMessage extends Application {
+    public void start(Stage primaryStage) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Launch Error");
+        alert.setHeaderText("No microbit connected");
+        alert.setContentText("Please connect a microbit and try again.");
+        alert.showAndWait();
+    }
+    public static void Launch() {
+        launch();
     }
 }

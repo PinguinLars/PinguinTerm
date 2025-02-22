@@ -38,10 +38,6 @@ public class App extends Application {
         launch();
     }
 
-    public static void ErrorMessageLaunch() {
-        ErrorMessage.Launch();
-    }
-
     @Override
     public void start(Stage primaryStage) {
         Scene scene = new Scene(createContents(), 750, 600);
@@ -316,20 +312,5 @@ public class App extends Application {
             //Hi :wave:
         });
         return button4_4;
-    }
-}
-
-class ErrorMessage extends Application {
-    @Override
-    public void start(Stage primaryStage) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Launch Error");
-        alert.setHeaderText("No microbit connected");
-        alert.setContentText("Please connect a microbit and try again.");
-        alert.showAndWait();
-    }
-
-    public static void Launch() {
-        launch();
     }
 }
