@@ -198,7 +198,7 @@ public class App extends Application {
     }
 
     private Button Button2_2() {
-        Button button2_2 = new Button("2.2");
+        Button button2_2 = new Button("\u20DD");
         button2_2.setId("2_2");
         button2_2.setOnAction(e -> {
             //Hi :wave:
