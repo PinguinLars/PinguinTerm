@@ -27,7 +27,6 @@ package nl.pinguinlars.pinguinterm;
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
@@ -199,6 +198,7 @@ public class App extends Application {
 
     private Button Button2_2() {
         Button button2_2 = new Button("\u20DD");
+        button2_2.setPrefSize(131,108);
         button2_2.setId("2_2");
         button2_2.setOnAction(e -> {
             //Hi :wave:

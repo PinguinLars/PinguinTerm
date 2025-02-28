@@ -22,21 +22,24 @@
  * SOFTWARE.
  */
 .root {
-    -fx-background-color: darkcyan;
+    -fx-background-color: linear-gradient(to bottom right,
+    darkcyan,
+    turquoise);
 }
 
 .button {
     -fx-font-size: 50px;
+    -fx-background-color: lightskyblue;
+    -fx-opacity: 30%;
     -fx-background-radius: 10%;
-    -fx-background-color: mediumaquamarine;
+    -fx-border-color: mediumaquamarine;
     -fx-border-radius: 10%;
-    -fx-border-color: lightcyan;
 }
 
 .button:hover {
-    -fx-background-color: aquamarine;
+    -fx-opacity: 80%;
 }
 
 .button:pressed {
-    -fx-background-color: aqua;
+    -fx-background-color: lightcyan;
 }

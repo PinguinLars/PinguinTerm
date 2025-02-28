@@ -29,6 +29,7 @@ public class KeyboardHandler {
     private static final LogHandler ErrorLogger = new LogHandler(true);
 
     public static void MovementKeys(String Key) {
+        Key = Key.toUpperCase();
         switch (Key) {
             case "A" -> Main.serial.SendMessage("Left");
             case "D" -> Main.serial.SendMessage("Right");
@@ -38,13 +39,24 @@ public class KeyboardHandler {
             case "W" -> Main.serial.SendMessage("Forward");
             case "WA" -> Main.serial.SendMessage("ForwardLeft");
             case "WD" -> Main.serial.SendMessage("ForwardRight");
-            case null -> {
+            case "STOP" -> Main.serial.SendMessage("Stop");
+            default -> {
                 System.out.println("Invalid Statement Given");
                 ErrorLogger.Log("Invalid Statement Given");
                 return;
             }
-            default -> Main.serial.SendMessage("Stop");
         }
         Logger.Log("Key \"" + Key + "\" Pressed");
     }
+
+    public static void MovementKeys() {
+        Main.serial.SendMessage("Stop");
+    }
+
+    /*static void KeyHandler(KeyEvent key, Button button) {
+        if (key.getCode().toString().equalsIgnoreCase("w")) {
+            button.setStyle("-fx-background-color: aqua");
+            MovementKeys("w");
+        }
+    }*/
 }
