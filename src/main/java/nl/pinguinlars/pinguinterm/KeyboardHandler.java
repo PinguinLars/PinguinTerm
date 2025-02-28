@@ -28,39 +28,35 @@ public class KeyboardHandler {
     private static final LogHandler Logger = new LogHandler(false);
     private static final LogHandler ErrorLogger = new LogHandler(true);
 
-    public static void KeyW() {
-        AppLauncher.serial.SendMessage("Forward");
+    public static void MovementKeys(String Key) {
+        Key = Key.toUpperCase();
+        switch (Key) {
+            case "A" -> Main.serial.SendMessage("Left");
+            case "D" -> Main.serial.SendMessage("Right");
+            case "S" -> Main.serial.SendMessage("Back");
+            case "SA" -> Main.serial.SendMessage("BackLeft");
+            case "SD" -> Main.serial.SendMessage("BackRight");
+            case "W" -> Main.serial.SendMessage("Forward");
+            case "WA" -> Main.serial.SendMessage("ForwardLeft");
+            case "WD" -> Main.serial.SendMessage("ForwardRight");
+            case "STOP" -> Main.serial.SendMessage("Stop");
+            default -> {
+                System.out.println("Invalid Statement Given");
+                ErrorLogger.Log("Invalid Statement Given");
+                return;
+            }
+        }
+        Logger.Log("Key \"" + Key + "\" Pressed");
     }
 
-    public static void KeyS() {
-        AppLauncher.serial.SendMessage("Backward");
+    public static void MovementKeys() {
+        Main.serial.SendMessage("Stop");
     }
 
-    public static void KeyA() {
-        AppLauncher.serial.SendMessage("Left");
-    }
-
-    public static void KeyD() {
-        AppLauncher.serial.SendMessage("Right");
-    }
-
-    public static void ReleaseWASD() {
-        AppLauncher.serial.SendMessage("Stop");
-    }
-
-    public static void KeyWA() {
-        AppLauncher.serial.SendMessage("ForwardLeft");
-    }
-
-    public static void KeyWD() {
-        AppLauncher.serial.SendMessage("ForwardRight");
-    }
-
-    public static void KeySA() {
-        AppLauncher.serial.SendMessage("BackLeft");
-    }
-
-    public static void KeySD() {
-        AppLauncher.serial.SendMessage("BackRight");
-    }
+    /*static void KeyHandler(KeyEvent key, Button button) {
+        if (key.getCode().toString().equalsIgnoreCase("w")) {
+            button.setStyle("-fx-background-color: aqua");
+            MovementKeys("w");
+        }
+    }*/
 }
