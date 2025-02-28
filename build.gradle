@@ -7,14 +7,14 @@ plugins {
 }
 
 group 'nl.pinguinlars'
-version '0.1-SNAPSHOT'
+version '0.1'
 
 repositories {
     mavenCentral()
 }
 
 ext {
-    junitVersion = '5.11.4'
+    junitVersion = '5.12.0'
 }
 
 sourceCompatibility = '21'
@@ -26,7 +26,7 @@ tasks.withType(JavaCompile).configureEach {
 
 application {
     mainModule = 'nl.pinguinlars.pinguinterm'
-    mainClass = 'nl.pinguinlars.pinguinterm.AppLauncher'
+    mainClass = 'nl.pinguinlars.pinguinterm.Main'
 }
 
 javafx {
@@ -56,4 +56,9 @@ jlink {
 
 jlinkZip {
     group = 'distribution'
+}
+jar {
+    manifest {
+        attributes 'Main-Class': application.mainClass
+    }
 }

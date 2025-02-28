@@ -33,8 +33,9 @@ import java.time.format.DateTimeFormatter;
 public class LogHandler {
     private static final String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH;mm;ss"));
     static final File logFile = new File("logs/PinguinTerm_" + date + ".log");
+    private static final String Error = "(ERROR) ";
     static FileWriter logWriter;
-    boolean error;
+    final boolean error;
 
     public LogHandler() {
         try {
@@ -64,14 +65,15 @@ public class LogHandler {
         String time = "[" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("HH;mm;ss,SSS")) + "] ";
         try {
             logWriter = new FileWriter(logFile, true);
+            var lineSeparator = System.lineSeparator();
             if (error)
-                logWriter.write(time + "(ERROR) " + message + System.lineSeparator()); //For easy location of errors
-            else logWriter.write(time + message + System.lineSeparator());
+                logWriter.write(time + Error + message + lineSeparator); //For easy location of errors
+            else logWriter.write(time + message + lineSeparator);
         } catch (IOException e) {
             e.printStackTrace();//Not going to log to the .log file on this methode, because this is the log methode
         } finally {
             try {
-                if (logWriter != null) {
+                if (null != logWriter) {
                     logWriter.close();
                 }
             } catch (IOException e) {

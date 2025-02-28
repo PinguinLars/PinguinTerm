@@ -21,3 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+.root {
+    -fx-background-color: linear-gradient(to bottom right,
+    darkcyan,
+    turquoise);
+}
+
+.button {
+    -fx-font-size: 50px;
+    -fx-background-color: lightskyblue;
+    -fx-opacity: 30%;
+    -fx-background-radius: 10%;
+    -fx-border-color: mediumaquamarine;
+    -fx-border-radius: 10%;
+}
+
+.button:hover {
+    -fx-opacity: 80%;
+}
+
+.button:pressed {
+    -fx-background-color: lightcyan;
+}
