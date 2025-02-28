@@ -38,7 +38,7 @@ public class Main {
 //            throw new RuntimeException("No MicroBit found");
 //        }
 //        serial.ReadProcess.submit(() -> {
-//            byte[] buffer = new byte[1024];
+//            byte[] buffer = new byte[1024*4];
 //            try {
 //                while (serial.ActiveProcess) {
 //                    int numRead = serial.MicroBitPort.readBytes(buffer, buffer.length);
