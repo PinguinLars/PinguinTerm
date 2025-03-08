@@ -22,18 +22,28 @@
  * SOFTWARE.
  */
 
-package nl.pinguinlars.pinguinterm;
+package nl.pinguinlars.pinguinterm.app;
 
 import javafx.application.Application;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Region;
 import javafx.stage.Stage;
+import nl.pinguinlars.pinguinterm.Main;
+import nl.pinguinlars.pinguinterm.keyboard.KeyHandler;
+import nl.pinguinlars.pinguinterm.keyboard.KeyboardHandler;
 
+import static nl.pinguinlars.pinguinterm.keyboard.Key.W;
+
+//Statement lambda's let me add more logic to them later on. //PinguinLars
+@SuppressWarnings("CodeBlock2Expr")
 public class App extends Application {
     private static final int ButtonVSize = 140, ButtonV1Size = 110;
+    private static final KeyboardHandler keyboard = new KeyboardHandler(Main.serial);
+    private static final KeyHandler keyHandler = new KeyHandler(Main.serial);
 
     public static void Launch() {
         launch();
@@ -43,6 +53,8 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         Scene scene = new Scene(createContents(), 750, 600);
         scene.getStylesheets().add("App.css");
+        scene.addEventFilter(KeyEvent.KEY_PRESSED,keyHandler);
+        scene.addEventFilter(KeyEvent.KEY_RELEASED,keyHandler);
         primaryStage.setTitle("Pinguin Term");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -85,6 +97,7 @@ public class App extends Application {
         gridPane.add(Button4_4(), 4, 4);
     }
 
+    @SuppressWarnings("StatementLambda")
     private Button Button0_0() {
         Button button0_0 = new Button("0.0");
         button0_0.setPrefSize(ButtonVSize, ButtonV1Size);
@@ -200,7 +213,7 @@ public class App extends Application {
         button2_1.setPrefSize(ButtonVSize, ButtonV1Size);
         button2_1.setId("2_1");
         button2_1.setOnAction(e -> {
-            //Hi :wave:
+            keyboard.MovementKeys(W);
         });
         return button2_1;
     }
@@ -307,7 +320,7 @@ public class App extends Application {
 
     private Button Button4_2() {
         Button button4_2 = new Button("4.2");
-        button4_2.setPrefSize(ButtonVSize,ButtonV1Size);
+        button4_2.setPrefSize(ButtonVSize, ButtonV1Size);
         button4_2.setId("4_2");
         button4_2.setOnAction(e -> {
             //Hi :wave:
@@ -317,7 +330,7 @@ public class App extends Application {
 
     private Button Button4_3() {
         Button button4_3 = new Button("4.3");
-        button4_3.setPrefSize(ButtonVSize,ButtonV1Size);
+        button4_3.setPrefSize(ButtonVSize, ButtonV1Size);
         button4_3.setId("4_3");
         button4_3.setOnAction(e -> {
             //Hi :wave:
@@ -327,7 +340,7 @@ public class App extends Application {
 
     private Button Button4_4() {
         Button button4_4 = new Button("4.4");
-        button4_4.setPrefSize(ButtonVSize,ButtonV1Size);
+        button4_4.setPrefSize(ButtonVSize, ButtonV1Size);
         button4_4.setId("4_4");
         button4_4.setOnAction(e -> {
             //Hi :wave:
