@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package nl.pinguinlars.pinguinterm;
+package nl.pinguinlars.pinguinterm.app;
 
 import javafx.application.Application;
 import javafx.scene.control.Alert;
