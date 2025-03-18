@@ -30,24 +30,24 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+
+import static java.util.logging.Level.SEVERE;
+import static nl.pinguinlars.pinguinterm.log.PinguinLogger.log;
 
 public class SerialController {
     public SerialPort MicroBitPort;
-    ExecutorService ReadProcess = Executors.newFixedThreadPool(4);
     public volatile boolean ActiveProcess = true;
-    public ArrayList<String> MessageLog = new ArrayList<>();
-    static LogHandler Logger = new LogHandler(false);
-    static LogHandler ErrorLogger = new LogHandler(true);
+    public final ArrayList<String> MessageLog = new ArrayList<>();
+    final ExecutorService ReadProcess = Executors.newFixedThreadPool(4);
 
     public SerialController() {
         SerialPort[] ports = SerialPort.getCommPorts();
         final String[] knowPorts = {"mbed Serial Port"};
         for (SerialPort port : ports) {
-            System.out.printf("Port %s detected%n", port.getDescriptivePortName());
-            Logger.Log("Port: " + port.getDescriptivePortName());
+            log.info(String.format("Port %s detected%n", port.getDescriptivePortName()));
+            log.fine("Port: " + port.getDescriptivePortName());
             if (!Arrays.asList(knowPorts).contains(port.getPortDescription())) continue;
-            Logger.Log("MicroBit found");
+            log.info("MicroBit found at " + port.getDescriptivePortName());
             MicroBitPort = port;
             MicroBitPort.setComPortParameters(115200, 8, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
             break;
@@ -56,28 +56,44 @@ public class SerialController {
 
     public void SendMessage(String Message) {
         if (!(MicroBitPort != null && MicroBitPort.isOpen())) {
-            ErrorLogger.Log("Port isn't open or MicroBit not detected");
+            if (MicroBitPort == null) {
+                log.severe("Micro:bit not detected");
+            } else if (!MicroBitPort.isOpen()) {
+                log.severe("Port isn't open");
+            }
             return;
         }
         byte[] MessageInBytes = Message.getBytes();
         MicroBitPort.writeBytes(MessageInBytes, MessageInBytes.length);
-        Logger.Log("Send Message: " + Message);
+        log.finer("Message send: " + Message);
         try {
-            TimeUnit.MILLISECONDS.sleep(10);
+            log.finest("Waiting 10 milliseconds");
+            Thread.sleep(10);
         } catch (InterruptedException e) {
-            ErrorLogger.Log(e.getMessage());
+            log.log(SEVERE,"Couldn't wait for 10 milliseconds", e);
         }
     }
 
+    /**
+     * Please don't use this, this is here for some reason.
+     */
+    @Deprecated
     public String Message() {
         return MessageLog.getLast();
     }
 
-    //Please don't use in a catch or finally statement, instead use {Your object}.ReadProcess.ShutdownNow
+    /**
+     * Shutdown methode for the {@link SerialController},<br>
+     * but don't use this methode in a catch or finally block, instead use the ShutdownNow methode.
+     */
     public void Shutdown() {
         ActiveProcess = false;
-        MicroBitPort.closePort();
         ReadProcess.shutdown();
-        Logger.Log("Shutting Down");
+        MicroBitPort.closePort();
+    }
+
+    public void ShutdownNow() {
+        ReadProcess.shutdownNow();
+        MicroBitPort.closePort();
     }
 }
