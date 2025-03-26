@@ -3,7 +3,7 @@ package nl.pinguinlars.pinguinterm.keyboard;
 import javafx.event.EventHandler;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import nl.pinguinlars.pinguinterm.SerialController;
+import nl.pinguinlars.pinguinterm.serial.SerialController;
 
 import java.util.HashSet;
 import java.util.Set;

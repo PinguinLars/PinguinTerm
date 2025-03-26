@@ -22,10 +22,11 @@
  * SOFTWARE.
  */
 
-package nl.pinguinlars.pinguinterm;
+package nl.pinguinlars.pinguinterm.serial;
 
 import com.fazecast.jSerialComm.SerialPort;
 
+import javax.annotation.PreDestroy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
@@ -35,10 +36,10 @@ import static java.util.logging.Level.SEVERE;
 import static nl.pinguinlars.pinguinterm.log.PinguinLogger.log;
 
 public class SerialController {
-    public SerialPort MicroBitPort;
-    public volatile boolean ActiveProcess = true;
+    public static SerialPort MicroBitPort;
     public final ArrayList<String> MessageLog = new ArrayList<>();
-    final ExecutorService ReadProcess = Executors.newFixedThreadPool(4);
+    public final ExecutorService ReadProcess = Executors.newFixedThreadPool(4);
+    public volatile boolean ActiveProcess = true;
 
     public SerialController() {
         SerialPort[] ports = SerialPort.getCommPorts();
@@ -50,19 +51,22 @@ public class SerialController {
             log.info("MicroBit found at " + port.getDescriptivePortName());
             MicroBitPort = port;
             MicroBitPort.setComPortParameters(115200, 8, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
+            MicroBitPort.openPort();
             break;
         }
     }
 
     public void SendMessage(String Message) {
-        if (!(MicroBitPort != null && MicroBitPort.isOpen())) {
-            if (MicroBitPort == null) {
-                log.severe("Micro:bit not detected");
-            } else if (!MicroBitPort.isOpen()) {
-                log.severe("Port isn't open");
-            }
+        MicroBitPort.openPort();
+        if (MicroBitPort == null) {
+            log.severe("Micro:bit not detected");
+            return;
+        } else if (!MicroBitPort.isOpen()) {
+            log.severe("Port isn't open");
             return;
         }
+
+        Message += ";"; //Adds a ";" to the message such that the Micro:bit can process it the message
         byte[] MessageInBytes = Message.getBytes();
         MicroBitPort.writeBytes(MessageInBytes, MessageInBytes.length);
         log.finer("Message send: " + Message);
@@ -70,7 +74,7 @@ public class SerialController {
             log.finest("Waiting 10 milliseconds");
             Thread.sleep(10);
         } catch (InterruptedException e) {
-            log.log(SEVERE,"Couldn't wait for 10 milliseconds", e);
+            log.log(SEVERE, "Couldn't wait for 10 milliseconds", e);
         }
     }
 
@@ -86,6 +90,7 @@ public class SerialController {
      * Shutdown methode for the {@link SerialController},<br>
      * but don't use this methode in a catch or finally block, instead use the ShutdownNow methode.
      */
+    @PreDestroy
     public void Shutdown() {
         ActiveProcess = false;
         ReadProcess.shutdown();

@@ -24,7 +24,7 @@
 
 package nl.pinguinlars.pinguinterm.keyboard;
 
-import nl.pinguinlars.pinguinterm.SerialController;
+import nl.pinguinlars.pinguinterm.serial.SerialController;
 
 import static java.util.logging.Level.SEVERE;
 import static nl.pinguinlars.pinguinterm.log.PinguinLogger.log;

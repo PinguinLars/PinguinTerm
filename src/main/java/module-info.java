@@ -3,7 +3,8 @@ module nl.pinguinlars.pinguinterm {
     requires com.fazecast.jSerialComm;
     requires javafx.graphics;
     requires javafx.base;
-    requires java.logging;
+    requires java.annotation;
+    requires java.sql;
 
 
     opens nl.pinguinlars.pinguinterm to javafx.fxml;
@@ -14,4 +15,6 @@ module nl.pinguinlars.pinguinterm {
     opens nl.pinguinlars.pinguinterm.app to javafx.fxml;
     exports nl.pinguinlars.pinguinterm.log;
     opens nl.pinguinlars.pinguinterm.log to javafx.fxml;
+    exports nl.pinguinlars.pinguinterm.serial;
+    opens nl.pinguinlars.pinguinterm.serial to javafx.fxml;
 }
