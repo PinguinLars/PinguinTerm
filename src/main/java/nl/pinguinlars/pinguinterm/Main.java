@@ -38,7 +38,7 @@ public class Main {
     public static void main(String[] args) {
         log.info("Starting Application");
         if (serial.MicroBitPort == null) {
-            ErrorMessage.Launch();
+            ErrorMessage.launch(ErrorMessage.class, args);
             log.log(SEVERE, "No MicroBit Found");
             log.info("Exiting Application");
             throw new RuntimeException("No MicroBit found");
@@ -56,7 +56,7 @@ public class Main {
             }
         });
         try {
-            App.Launch();
+            App.launch(App.class, args);
             log.finer("Shutting down application internals");
             serial.Shutdown();
         } catch (Exception e) {
