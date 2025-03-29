@@ -58,7 +58,7 @@ public class KeyboardHandler {
 
     @SuppressWarnings("unused") //I don't know, I may use this later //PinguinLars
     public void MovementKeys() {
-        log.finer("Methode \"MovementKeys\" triggerd without arguments");
+        log.finer("Methode \"MovementKeys\" triggered without arguments");
         serial.SendMessage("Stop");
     }
 }
