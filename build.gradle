@@ -15,7 +15,7 @@ repositories {
 }
 
 ext {
-    junitVersion = '5.12.0'
+    junitVersion = '5.12.1'
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -34,9 +34,9 @@ javafx {
 
 dependencies {
     implementation('com.fazecast:jSerialComm:2.11.0')
-    implementation('org.controlsfx:controlsfx:11.2.1')
+    implementation('org.controlsfx:controlsfx:11.2.2')
     implementation 'javax.annotation:javax.annotation-api:1.3.2'
-
+    
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
