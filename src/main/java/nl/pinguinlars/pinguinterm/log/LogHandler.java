@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package nl.pinguinlars.pinguinterm;
+package nl.pinguinlars.pinguinterm.log;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -30,6 +30,10 @@ import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+/**
+ * @deprecated Use {@link PinguinLogger} instead
+ */
+@Deprecated
 public class LogHandler {
     private static final String date = LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.yyyy HH;mm;ss"));
     static final File logFile = new File("logs/PinguinTerm_" + date + ".log");
@@ -66,8 +70,7 @@ public class LogHandler {
         try {
             logWriter = new FileWriter(logFile, true);
             var lineSeparator = System.lineSeparator();
-            if (error)
-                logWriter.write(time + Error + message + lineSeparator); //For easy location of errors
+            if (error) logWriter.write(time + Error + message + lineSeparator); //For easy location of errors
             else logWriter.write(time + message + lineSeparator);
         } catch (IOException e) {
             e.printStackTrace();//Not going to log to the .log file on this methode, because this is the log methode

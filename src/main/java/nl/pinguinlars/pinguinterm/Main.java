@@ -24,43 +24,46 @@
 
 package nl.pinguinlars.pinguinterm;
 
-public class Main {
-    static SerialController serial = new SerialController();
-    static LogHandler Logger = new LogHandler(false);
-    static LogHandler ErrorLogger = new LogHandler(true);
+import nl.pinguinlars.pinguinterm.app.App;
+import nl.pinguinlars.pinguinterm.app.ErrorMessage;
+import nl.pinguinlars.pinguinterm.serial.SerialController;
 
+import static java.util.logging.Level.SEVERE;
+import static nl.pinguinlars.pinguinterm.log.PinguinLogger.log;
+
+public class Main {
+    public static final SerialController serial = new SerialController();
+
+    @SuppressWarnings({"AccessStaticViaInstance"})
     public static void main(String[] args) {
-        Logger.Log("Starting Application");
+        log.info("Starting Application");
         if (serial.MicroBitPort == null) {
             ErrorMessage.Launch();
-            ErrorLogger.Log("No MicroBit Found");
-            Logger.Log("Exiting Application");
+            log.log(SEVERE, "No MicroBit Found");
+            log.info("Exiting Application");
             throw new RuntimeException("No MicroBit found");
         }
         serial.ReadProcess.submit(() -> {
-            byte[] buffer = new byte[1024*4];
-            try {
-                while (serial.ActiveProcess) {
-                    int numRead = serial.MicroBitPort.readBytes(buffer, buffer.length);
-                    if (numRead > 0) {
-                        String receivedData = new String(buffer, 0, numRead);
-                        serial.MessageLog.add(receivedData);
-                        Logger.Log(receivedData);
-                        Thread.sleep(10);
-                    }
+            byte[] buffer = new byte[1024];
+            while (serial.ActiveProcess) {
+                int numRead = serial.MicroBitPort.readBytes(buffer, buffer.length);
+                if (numRead > 0) {
+                    String RecievedData = new String(buffer, 0, numRead);
+                    log.info("(Micro:bit) " + RecievedData);
+                    serial.MessageLog.add(RecievedData);
+                    log.finest(String.format("Added %s to the MessageLog ", RecievedData)); //Might deprecate that
                 }
-            } catch (Exception e) {
-                ErrorLogger.Log(e.getMessage());
             }
         });
         try {
-            serial.MicroBitPort.openPort();
-        App.Launch();
+            App.Launch();
+            log.finer("Shutting down application internals");
+            serial.Shutdown();
         } catch (Exception e) {
-            serial.ReadProcess.shutdownNow();
-            serial.MicroBitPort.closePort();
-            ErrorLogger.Log(e.getMessage());
+            log.finer("Forcefully shutting down application internals");
+            serial.ShutdownNow();
+            log.log(SEVERE, "Unknown exception occurred", e);
         }
-        serial.Shutdown();
+        log.info("Exiting Application");
     }
 }
