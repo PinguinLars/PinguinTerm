@@ -24,12 +24,13 @@
 
 package nl.pinguinlars.pinguinterm.keyboard;
 
+import nl.pinguinlars.pinguinterm.log.Logger;
 import nl.pinguinlars.pinguinterm.serial.SerialController;
 
 import static java.util.logging.Level.SEVERE;
-import static nl.pinguinlars.pinguinterm.log.PinguinLogger.log;
 
 public class KeyboardHandler {
+    private static final Logger logger = Logger.getInstance();
     private final SerialController serial;
 
     public KeyboardHandler(SerialController serial) {
@@ -49,16 +50,16 @@ public class KeyboardHandler {
             case Stop -> serial.SendMessage("Stop");
             default -> {
                 System.out.println("Invalid Statement Given");
-                log.log(SEVERE, "Invalid Statement Given");
+                logger.log(SEVERE, "Invalid Statement Given");
                 return;
             }
         }
-        log.finer("Key \"" + key + "\" Pressed");
+        logger.finer("Key \"" + key + "\" Pressed");
     }
 
     @SuppressWarnings("unused") //I don't know, I may use this later //PinguinLars
     public void MovementKeys() {
-        log.finer("Methode \"MovementKeys\" triggered without arguments");
+        logger.finer("Methode \"MovementKeys\" triggered without arguments");
         serial.SendMessage("Stop");
     }
 }

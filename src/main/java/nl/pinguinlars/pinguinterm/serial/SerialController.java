@@ -25,6 +25,7 @@
 package nl.pinguinlars.pinguinterm.serial;
 
 import com.fazecast.jSerialComm.SerialPort;
+import nl.pinguinlars.pinguinterm.log.Logger;
 
 import javax.annotation.PreDestroy;
 import java.util.ArrayList;
@@ -33,23 +34,23 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static java.util.logging.Level.SEVERE;
-import static nl.pinguinlars.pinguinterm.log.PinguinLogger.log;
 
 public class SerialController {
+    private static final Logger logger = Logger.getInstance();
     public static SerialPort MicroBitPort;
+    private static SerialController instance;
     public final ArrayList<String> MessageLog = new ArrayList<>();
     public final ExecutorService ReadProcess = Executors.newFixedThreadPool(4);
     public volatile boolean ActiveProcess = true;
-    private static SerialController instance;
 
     private SerialController() {
         SerialPort[] ports = SerialPort.getCommPorts();
         final String[] knowPorts = {"mbed Serial Port"};
         for (SerialPort port : ports) {
-            log.info(String.format("Port %s detected%n", port.getDescriptivePortName()));
-            log.fine("Port: " + port.getDescriptivePortName());
+            logger.info(String.format("Port %s detected%n", port.getDescriptivePortName()));
+            logger.fine("Port: " + port.getDescriptivePortName());
             if (!Arrays.asList(knowPorts).contains(port.getPortDescription())) continue;
-            log.info("MicroBit found at " + port.getDescriptivePortName());
+            logger.info("MicroBit found at " + port.getDescriptivePortName());
             MicroBitPort = port;
             MicroBitPort.setComPortParameters(115200, 8, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
             MicroBitPort.openPort();
@@ -67,22 +68,22 @@ public class SerialController {
     public void SendMessage(String Message) {
         MicroBitPort.openPort();
         if (MicroBitPort == null) {
-            log.severe("Micro:bit not detected");
+            logger.severe("Micro:bit not detected");
             return;
         } else if (!MicroBitPort.isOpen()) {
-            log.severe("Port isn't open");
+            logger.severe("Port isn't open");
             return;
         }
 
         Message += ";"; //Adds a ";" to the message such that the Micro:bit can process it the message
         byte[] MessageInBytes = Message.getBytes();
         MicroBitPort.writeBytes(MessageInBytes, MessageInBytes.length);
-        log.finer("Message send: " + Message);
+        logger.finer("Message send: " + Message);
         try {
-            log.finest("Waiting 10 milliseconds");
+            logger.finest("Waiting 10 milliseconds");
             Thread.sleep(10);
         } catch (InterruptedException e) {
-            log.log(SEVERE, "Couldn't wait for 10 milliseconds", e);
+            logger.log(SEVERE, "Couldn't wait for 10 milliseconds", e);
         }
     }
 
