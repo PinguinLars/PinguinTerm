@@ -32,7 +32,7 @@ import static java.util.logging.Level.SEVERE;
 import static nl.pinguinlars.pinguinterm.log.PinguinLogger.log;
 
 public class Main {
-    public static final SerialController serial = new SerialController();
+    private static final SerialController serial = SerialController.getInstance();
 
     @SuppressWarnings({"AccessStaticViaInstance"})
     public static void main(String[] args) {

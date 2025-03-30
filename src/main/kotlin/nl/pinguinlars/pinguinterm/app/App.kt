@@ -21,7 +21,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-@file:JvmName("AppKT")
+
 
 package nl.pinguinlars.pinguinterm.app
 
@@ -35,23 +35,21 @@ import javafx.scene.input.KeyEvent
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.Region
 import javafx.stage.Stage
-import nl.pinguinlars.pinguinterm.Main
 import nl.pinguinlars.pinguinterm.keyboard.Key
 import nl.pinguinlars.pinguinterm.keyboard.KeyHandler
-import nl.pinguinlars.pinguinterm.keyboard.KeyboardHandler
+import nl.pinguinlars.pinguinterm.serial.SerialController
 
-@Suppress(/*"FunctionName",*/ "LocalVariableName", "RedundantVisibilityModifier", "FunctionName")
+@Suppress( "LocalVariableName", "RedundantVisibilityModifier", "FunctionName")
 public class App : Application() {
     private val buttonVSize: Double = 140.0
     private val buttonV1Size: Double = 110.0
-    private val keyboard: KeyboardHandler = KeyboardHandler(Main.serial)
-    private val keyHandler: KeyHandler = KeyHandler(Main.serial)
+    private val keyboard: KeyHandler = KeyHandler(SerialController.getInstance())
 
     override fun start(primaryStage: Stage) {
         val scene = Scene(createContents(), 750.0, 600.0)
         scene.stylesheets.add("App.css")
-        scene.addEventFilter(KeyEvent.KEY_PRESSED, keyHandler)
-        scene.addEventFilter(KeyEvent.KEY_RELEASED, keyHandler)
+        scene.addEventFilter(KeyEvent.KEY_PRESSED, keyboard)
+        scene.addEventFilter(KeyEvent.KEY_RELEASED, keyboard)
         primaryStage.title = "Pinguin Term"
         primaryStage.scene = scene
         primaryStage.show()

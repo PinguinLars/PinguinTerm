@@ -40,8 +40,9 @@ public class SerialController {
     public final ArrayList<String> MessageLog = new ArrayList<>();
     public final ExecutorService ReadProcess = Executors.newFixedThreadPool(4);
     public volatile boolean ActiveProcess = true;
+    private static SerialController instance;
 
-    public SerialController() {
+    private SerialController() {
         SerialPort[] ports = SerialPort.getCommPorts();
         final String[] knowPorts = {"mbed Serial Port"};
         for (SerialPort port : ports) {
@@ -54,6 +55,13 @@ public class SerialController {
             MicroBitPort.openPort();
             break;
         }
+    }
+
+    public static SerialController getInstance() {
+        if (instance == null) {
+            instance = new SerialController();
+        }
+        return instance;
     }
 
     public void SendMessage(String Message) {
