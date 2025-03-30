@@ -22,26 +22,44 @@
  * SOFTWARE.
  */
 
-package nl.pinguinlars.pinguinterm.app
+.dialog-pane {
+    -fx-background-color: linear-gradient(to bottom right,
+    darkcyan,
+    turquoise);
+}
 
-import javafx.application.Application
-import javafx.scene.control.Alert
-import javafx.scene.image.Image
-import javafx.scene.image.ImageView
-import javafx.stage.Stage
-import javafx.stage.StageStyle
+.dialog-pane .button-bar .close-button {
+    -fx-background-color: lightskyblue;
+    -fx-opacity: 100;
+    -fx-border-color: mediumaquamarine;
+}
 
-@Suppress("RedundantVisibilityModifier")
-public class ErrorMessage : Application() {
-    override fun start(stage: Stage?) {
-        val alert = Alert(Alert.AlertType.ERROR)
-        alert.initStyle(StageStyle.UNDECORATED)
-        alert.title = "Launch Error"
-        alert.headerText = "No microbit connected"
-        alert.contentText = "Please connect a microbit and try again."
-        val errorIcon = Image(javaClass.getResourceAsStream("/google_fonts/icons/error.png"))
-        alert.graphic = ImageView(errorIcon)
-        alert.dialogPane.stylesheets.add("ErrorMessage.css")
-        alert.showAndWait()
-    }
+.dialog-pane .graphic-container {
+    -fx-padding: 10px;
+}
+
+.dialog-pane .graphic-container .image-view {
+    -fx-fit-width: 50px;
+    -fx-fit-height: 50px;
+}
+
+.dialog-pane .button-bar .close-button:hover {
+    -fx-background-color: aquamarine;
+}
+
+.dialog-pane .button-bar .close-button:pressed {
+    -fx-background-color: lightcyan;
+}
+
+.dialog-pane .header-panel {
+    -fx-background-color: linear-gradient(to bottom right,
+    coral,
+    lightsalmon);
+    -fx-padding: 10px;
+}
+
+.dialog-pane .header-panel .label {
+    -fx-text-fill: white;
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
 }

@@ -22,26 +22,13 @@
  * SOFTWARE.
  */
 
-package nl.pinguinlars.pinguinterm.app
+package nl.pinguinlars.pinguinterm.dev;
 
-import javafx.application.Application
-import javafx.scene.control.Alert
-import javafx.scene.image.Image
-import javafx.scene.image.ImageView
-import javafx.stage.Stage
-import javafx.stage.StageStyle
+import javafx.application.Application;
+import nl.pinguinlars.pinguinterm.app.ErrorMessage;
 
-@Suppress("RedundantVisibilityModifier")
-public class ErrorMessage : Application() {
-    override fun start(stage: Stage?) {
-        val alert = Alert(Alert.AlertType.ERROR)
-        alert.initStyle(StageStyle.UNDECORATED)
-        alert.title = "Launch Error"
-        alert.headerText = "No microbit connected"
-        alert.contentText = "Please connect a microbit and try again."
-        val errorIcon = Image(javaClass.getResourceAsStream("/google_fonts/icons/error.png"))
-        alert.graphic = ImageView(errorIcon)
-        alert.dialogPane.stylesheets.add("ErrorMessage.css")
-        alert.showAndWait()
+public class DevAlert {
+    public static void main(String[] args) {
+        Application.launch(ErrorMessage.class, args);
     }
 }
