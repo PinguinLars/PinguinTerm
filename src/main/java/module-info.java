@@ -3,10 +3,12 @@ module nl.pinguinlars.pinguinterm {
     requires com.fazecast.jSerialComm;
     requires javafx.graphics;
     requires javafx.base;
-    requires javafx.fxml;
-    requires org.controlsfx.controls;
+    requires java.annotation;
+    requires java.logging;
 
-
-    opens nl.pinguinlars.pinguinterm to javafx.fxml;
     exports nl.pinguinlars.pinguinterm;
+    exports nl.pinguinlars.pinguinterm.keyboard;
+    exports nl.pinguinlars.pinguinterm.app;
+    exports nl.pinguinlars.pinguinterm.log;
+    exports nl.pinguinlars.pinguinterm.serial;
 }

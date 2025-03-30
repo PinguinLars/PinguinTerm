@@ -22,41 +22,44 @@
  * SOFTWARE.
  */
 
-package nl.pinguinlars.pinguinterm;
+package nl.pinguinlars.pinguinterm.keyboard;
+
+import nl.pinguinlars.pinguinterm.log.Logger;
+import nl.pinguinlars.pinguinterm.serial.SerialController;
+
+import static java.util.logging.Level.SEVERE;
 
 public class KeyboardHandler {
-    private static final LogHandler Logger = new LogHandler(false);
-    private static final LogHandler ErrorLogger = new LogHandler(true);
+    private static final Logger logger = Logger.getInstance();
+    private final SerialController serial;
 
-    public static void MovementKeys(String Key) {
-        Key = Key.toUpperCase();
-        switch (Key) {
-            case "A" -> Main.serial.SendMessage("Left");
-            case "D" -> Main.serial.SendMessage("Right");
-            case "S" -> Main.serial.SendMessage("Back");
-            case "SA" -> Main.serial.SendMessage("BackLeft");
-            case "SD" -> Main.serial.SendMessage("BackRight");
-            case "W" -> Main.serial.SendMessage("Forward");
-            case "WA" -> Main.serial.SendMessage("ForwardLeft");
-            case "WD" -> Main.serial.SendMessage("ForwardRight");
-            case "STOP" -> Main.serial.SendMessage("Stop");
+    public KeyboardHandler(SerialController serial) {
+        this.serial = serial;
+    }
+
+    public void MovementKeys(Key key) {
+        switch (key) {
+            case A -> serial.SendMessage("Left");
+            case D -> serial.SendMessage("Right");
+            case S -> serial.SendMessage("Back");
+            case SA -> serial.SendMessage("BackLeft");
+            case SD -> serial.SendMessage("BackRight");
+            case W -> serial.SendMessage("Forward");
+            case WA -> serial.SendMessage("ForwardLeft");
+            case WD -> serial.SendMessage("ForwardRight");
+            case Stop -> serial.SendMessage("Stop");
             default -> {
                 System.out.println("Invalid Statement Given");
-                ErrorLogger.Log("Invalid Statement Given");
+                logger.log(SEVERE, "Invalid Statement Given");
                 return;
             }
         }
-        Logger.Log("Key \"" + Key + "\" Pressed");
+        logger.finer("Key \"" + key + "\" Pressed");
     }
 
-    public static void MovementKeys() {
-        Main.serial.SendMessage("Stop");
+    @SuppressWarnings("unused") //I don't know, I may use this later //PinguinLars
+    public void MovementKeys() {
+        logger.finer("Methode \"MovementKeys\" triggered without arguments");
+        serial.SendMessage("Stop");
     }
-
-    /*static void KeyHandler(KeyEvent key, Button button) {
-        if (key.getCode().toString().equalsIgnoreCase("w")) {
-            button.setStyle("-fx-background-color: aqua");
-            MovementKeys("w");
-        }
-    }*/
 }

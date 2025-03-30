@@ -22,62 +22,92 @@
  * SOFTWARE.
  */
 
-package nl.pinguinlars.pinguinterm;
+package nl.pinguinlars.pinguinterm.serial;
 
 import com.fazecast.jSerialComm.SerialPort;
+import nl.pinguinlars.pinguinterm.log.Logger;
 
+import javax.annotation.PreDestroy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+
+import static java.util.logging.Level.SEVERE;
 
 public class SerialController {
-    public SerialPort MicroBitPort;
-    ExecutorService ReadProcess = Executors.newFixedThreadPool(4);
+    private static final Logger logger = Logger.getInstance();
+    public static SerialPort MicroBitPort;
+    private static SerialController instance;
+    public final ArrayList<String> MessageLog = new ArrayList<>();
+    public final ExecutorService ReadProcess = Executors.newFixedThreadPool(4);
     public volatile boolean ActiveProcess = true;
-    public ArrayList<String> MessageLog = new ArrayList<>();
-    static LogHandler Logger = new LogHandler(false);
-    static LogHandler ErrorLogger = new LogHandler(true);
 
-    public SerialController() {
+    private SerialController() {
         SerialPort[] ports = SerialPort.getCommPorts();
         final String[] knowPorts = {"mbed Serial Port"};
         for (SerialPort port : ports) {
-            System.out.printf("Port %s detected%n", port.getDescriptivePortName());
-            Logger.Log("Port: " + port.getDescriptivePortName());
+            logger.info(String.format("Port %s detected%n", port.getDescriptivePortName()));
+            logger.fine("Port: " + port.getDescriptivePortName());
             if (!Arrays.asList(knowPorts).contains(port.getPortDescription())) continue;
-            Logger.Log("MicroBit found");
+            logger.info("MicroBit found at " + port.getDescriptivePortName());
             MicroBitPort = port;
             MicroBitPort.setComPortParameters(115200, 8, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
+            MicroBitPort.openPort();
             break;
         }
     }
 
+    public static SerialController getInstance() {
+        if (instance == null) {
+            instance = new SerialController();
+        }
+        return instance;
+    }
+
     public void SendMessage(String Message) {
-        if (!(MicroBitPort != null && MicroBitPort.isOpen())) {
-            ErrorLogger.Log("Port isn't open or MicroBit not detected");
+        MicroBitPort.openPort();
+        if (MicroBitPort == null) {
+            logger.severe("Micro:bit not detected");
+            return;
+        } else if (!MicroBitPort.isOpen()) {
+            logger.severe("Port isn't open");
             return;
         }
+
+        Message += ";"; //Adds a ";" to the message such that the Micro:bit can process it the message
         byte[] MessageInBytes = Message.getBytes();
         MicroBitPort.writeBytes(MessageInBytes, MessageInBytes.length);
-        Logger.Log("Send Message: " + Message);
+        logger.finer("Message send: " + Message);
         try {
-            TimeUnit.MILLISECONDS.sleep(10);
+            logger.finest("Waiting 10 milliseconds");
+            Thread.sleep(10);
         } catch (InterruptedException e) {
-            ErrorLogger.Log(e.getMessage());
+            logger.log(SEVERE, "Couldn't wait for 10 milliseconds", e);
         }
     }
 
+    /**
+     * Please don't use this, this is here for some reason.
+     */
+    @Deprecated
     public String Message() {
         return MessageLog.getLast();
     }
 
-    //Please don't use in a catch or finally statement, instead use {Your object}.ReadProcess.ShutdownNow
+    /**
+     * Shutdown methode for the {@link SerialController},<br>
+     * but don't use this methode in a catch or finally block, instead use the ShutdownNow methode.
+     */
+    @PreDestroy
     public void Shutdown() {
         ActiveProcess = false;
-        MicroBitPort.closePort();
         ReadProcess.shutdown();
-        Logger.Log("Shutting Down");
+        MicroBitPort.closePort();
+    }
+
+    public void ShutdownNow() {
+        ReadProcess.shutdownNow();
+        MicroBitPort.closePort();
     }
 }
